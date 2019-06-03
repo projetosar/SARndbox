@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get prerequisite packages:
-PREREQUISITE_PACKAGES="build-essential g++ libudev-dev libusb-1.0-0-dev zlib1g-dev libpng-dev libjpeg-dev libtiff-dev libasound2-dev libspeex-dev libopenal-dev libv4l-dev libdc1394-22-dev libtheora-dev libbluetooth-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev"
+PREREQUISITE_PACKAGES="build-essential g++ libudev-dev libdbus-1-dev libusb-1.0-0-dev zlib1g-dev libpng-dev libjpeg-dev libtiff-dev libasound2-dev libspeex-dev libopenal-dev libv4l-dev libdc1394-22-dev libtheora-dev libbluetooth-dev libxi-dev libxrandr-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev"
 echo "Please enter your password to install Vrui's prerequisite packages"
 sudo apt-get install $PREREQUISITE_PACKAGES
 INSTALL_RESULT=$?
@@ -44,7 +44,7 @@ if [ $DOWNLOAD_RESULT -ne 0 ]; then
 fi
 
 # Set up Vrui's installation directory:
-VRUI_INSTALLDIR=$HOME/Vrui-$VRUI_VERSION
+VRUI_INSTALLDIR=/usr/local
 if [ $# -ge 1 ]; then
 	VRUI_INSTALLDIR=$1
 fi
@@ -85,6 +85,16 @@ if [ $INSTALL_RESULT -ne 0 ]; then
 	exit $INSTALL_RESULT
 fi
 
+# Install device permission rules
+echo "Installation in $VRUI_INSTALLDIR successful; installing device permission rules in /etc/udev/rules.d"
+echo "If prompted, please enter your password again to install device permission rules"
+sudo make INSTALLDIR=$VRUI_INSTALLDIR installudevrules
+UDEVRULES_RESULT=$?
+if [ $UDEVRULES_RESULT -ne 0 ]; then
+	echo "Could not install device permission rules in /etc/udev/rules.d. Please fix the issue and try again"
+	exit $UDEVRULES_RESULT
+fi
+
 # Build Vrui example applications
 cd ExamplePrograms
 echo "Building Vrui example programs on $NUM_CPUS CPUs"
@@ -99,7 +109,7 @@ fi
 # Install Vrui example applications
 echo "Build successful; installing Vrui example programs in $VRUI_INSTALLDIR"
 if [ $INSTALL_NEEDS_SUDO -ne 0 ]; then
-	echo "Please enter your password to install Vrui's example applications in $VRUI_INSTALLDIR"
+	echo "If prompted, please enter your password again to install Vrui's example applications in $VRUI_INSTALLDIR"
 	sudo make VRUI_MAKEDIR=$VRUI_MAKEDIR INSTALLDIR=$VRUI_INSTALLDIR install
 else
 	make VRUI_MAKEDIR=$VRUI_MAKEDIR INSTALLDIR=$VRUI_INSTALLDIR install
