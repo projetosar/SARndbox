@@ -16,8 +16,6 @@ Na Universidade Tecnológica Federal do Paraná (Câmpus Campo Mourão), o proje
 - [Canal oficial no YouTube](https://www.youtube.com/channel/UCs3vgsEw70BhNJmyLfjgw4w)
 - [Apresentação em exposição](https://youtu.be/Q2s3TVpPQAI?t=40)
 - [Pesquisadores disponibilizam Manual da SARndbox](http://portal.utfpr.edu.br/noticias/campo-mourao/recursos-educacionais)
-- [Prêmio pela apresentação de melhor trabalho em Educação no Seminário de Extensão e Inovação da UTFPR](http://portal.utfpr.edu.br/noticias/geral/alunos-da-utfpr-sao-premiados-no-sei-sicite-2019)
-
 
 
 
